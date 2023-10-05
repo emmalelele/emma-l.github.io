@@ -1,7 +1,7 @@
 # CS 30 Demos
 
 ## Demos
-- [Traffic light](01-ball)
+- [Traffic light](demo trafic light github)
 
 ## Projects
 - [Interactive Scene](02-scene)
