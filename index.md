@@ -1,7 +1,7 @@
 # CS 30 Demos
 
 ## Demos
-- [Bouncing Ball](01-ball)
+- [Traffic light](01-ball)
 
 ## Projects
 - [Interactive Scene](02-scene)
