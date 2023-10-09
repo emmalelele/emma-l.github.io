@@ -1,8 +1,9 @@
-let leftMargin = 50;
-let topMargin = 50;
-let cardW = 100;
-let cardH = 150;
-let gap = 20;
+const leftMargin = 50;
+const topMargin = 50;
+const cardW = 100;
+const cardH = 150;
+const gap = 20;
+const numsCard = 5;
 
 //Rank from 2 to A
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
@@ -37,23 +38,24 @@ function shuffleCards(array){
 	return array; 
 } 
 
-let yourCards = [];
+
 function createYourCards(){
     let yc = [];
     let randomCards = shuffleCards(createCards());
-    for (let i=0;i<4;i++){
-        temp = randomCards.pop();
-        yc.push(temp);
+    for (let i=0;i< numsCard;i++){
+        temp = randomCards.pop();//chia ra
+        yc.push(temp);//cho vao tay ban
     }
     return yc;
 }
 
+let yourCards = [];
 let cardImagesLoaded = [];
 let cardBackImageLoaded;
 function preload() {
   cardBackImageLoaded = loadImage('./images/back.png');
   yourCards = createYourCards();
-  for (let i=0;i<4;i++){
+  for (let i=0;i<numsCard;i++){
     console.log(yourCards[i]);
     let imageFilename = './images/'+yourCards[i].rank+yourCards[i].suit+'.png';
     console.log(imageFilename);
@@ -65,7 +67,7 @@ function preload() {
 
 //Turn all your cards by click button
 function turnAllYourCards() {
-  for (let i=0;i<4;i++){
+  for (let i=0;i<numsCard;i++){
      if (yourCards[i].turn){
         yourCards[i].turn = false;
      }
@@ -83,7 +85,7 @@ function keyPressed() {
 }
 
 function showYourCards(){
-  for (let i=0;i<4;i++){
+  for (let i=0;i<numsCard;i++){
     if (yourCards[i].turn){
         image(cardImagesLoaded[i],leftMargin+i*cardW+i*gap,topMargin,cardW,cardH);
     }
