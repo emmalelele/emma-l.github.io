@@ -5,6 +5,7 @@
 
 ## Projects
 - [Interactive Scene](02-scene)
+- [Interactive Scene](/arrays%20and%20object%20notation/)
 
 ## Example Markdown Link
 - [Some Demonstration Title](01-demo-folder)
