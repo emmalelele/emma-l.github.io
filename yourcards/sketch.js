@@ -98,7 +98,7 @@ function showYourCards(){
 
 
 function setup() {
-  createCanvas(2*leftMargin+4*cardW+3*gap,2*topMargin+cardH);
+  createCanvas(2*leftMargin+numsCard*cardW+(numsCard-1)*gap,2*topMargin+cardH);
   background("white");
   button = createButton('Turn all your cards');
   button.position(width/2-60, topMargin/3);
