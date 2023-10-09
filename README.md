@@ -1,1 +1,1 @@
-# emma-l.github.io
+[emma](/index.md)
