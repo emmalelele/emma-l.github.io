@@ -5,7 +5,9 @@
 
 ## Projects
 - [Interactive Scene](/interactive%20scene/)
-- [Arrays and object notation](/arrays%20and%20object%20notation/)
+- [Arrays and object notation](/yourcards/index.html)
 
 ## Example Markdown Link
 - [Some Demonstration Title](01-demo-folder)
+
+
