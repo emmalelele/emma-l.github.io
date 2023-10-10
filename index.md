@@ -7,7 +7,4 @@
 - [Interactive Scene](/interactive%20scene/)
 - [Arrays and object notation](/yourcards/index.html)
 
-## Example Markdown Link
-- [Some Demonstration Title](01-demo-folder)
-
 
