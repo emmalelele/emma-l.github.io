@@ -5,6 +5,6 @@
 
 ## Projects
 - [Interactive Scene](/interactive%20scene/)
-- [Arrays and object notation](/yourcards/index.html)
+
 
 
