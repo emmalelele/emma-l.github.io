@@ -6,6 +6,7 @@
 
 ## Projects
 - [Interactive Scene](/interactive%20scene/index.html)
+- [Arrays and object notations](/arrays%20assignment/)
 
 
 
