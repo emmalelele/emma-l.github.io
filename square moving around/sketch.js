@@ -1,48 +1,57 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+//ball moving around screen demo
 
-
-let x;
-let y;
-speed = 10;
-let stage = "right"
-s = 20
+let x, y, size, xSpeed, ySpeed;
+let state = "right";
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(windowWidth, windowHeight);
   x = 0;
   y = 0;
+  size = 100;
+  xSpeed = 5;
+  ySpeed = 5;
 }
 
 function draw() {
   background(220);
-  square(x,y,s);
-  displaySquare();
-  movingAround();
+  
+  moveBox();
+  
+  //display
+  fill("black");
+  square(x, y, size);
 }
 
-function displaySquare(){
-  if (stage === "right" &&  x + s > width){
-    stage = "down"
-    x = width - s;
-
+function moveBox() {
+  if (state === "right") {
+    x += xSpeed;
+    if (x >= width - size) {
+      state = "down";
+      x = width - size - 1;
+    }
   }
-  else if (stage === "down" && y + s > height) {
-    y = height - s;
-    stage = "left";
+  
+  else if (state === "down") {
+    y += ySpeed;
+    if (y >= height - size) {
+      state = "left";
+      y = height - size - 1;
+    }
   }
-}
-
-
-function movingAround(){
-  if (stage === "right"){
-    x += speed
+  
+  else if (state === "left") {
+    x -= xSpeed;
+    if (x <= 0) {
+      state = "up";
+      x = 0;
+    }
   }
-  if (stage === "down"){
-    y += speed;
+  
+  else if (state === "up") {
+    y -= ySpeed;
+    if (y <= 0) {
+      state = "right";
+      y = 0;
+    }
   }
 }
