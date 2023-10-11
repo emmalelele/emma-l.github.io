@@ -9,6 +9,7 @@ let lastSwitchTime = 0;
 let greenDuration = 3000;
 let yellowDuration = 500;
 let redDuration = 3000;
+let main = 1;
 
 function setup() {
   createCanvas(100, 300);
