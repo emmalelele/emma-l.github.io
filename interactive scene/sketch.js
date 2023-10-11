@@ -49,10 +49,10 @@ class Ball {
 
 // initial 
 let ballMax = 100;
-let ballSize = 50
+let ballSize = 50;
 let balls = [];
 let createSound;
-let pickupSound;
+
 
 
 // set up
@@ -60,7 +60,6 @@ function setup(){
   createCanvas(windowWidth, windowHeight); 
   soundFormats('mp3', 'mp3');
   createSound = loadSound('pop-94319.mp3');
-  pickupSound  = loadSound('coin_c_02-102844.mp3');
   
 }
 
@@ -91,18 +90,18 @@ function displayBall(){
     b.display();
     b.checkBoundaryCollision();
 
-    }
+  }
   
 }
 
 // checking if mouse on canvas
 function mouseOnCanvas(){
-   if ( width  >= mouseX && 0 <= mouseX && height >= mouseY && 0 <= mouseY ){
-      return true 
-   } 
-   else {
-      return false
-    }
+  if ( width  >= mouseX && 0 <= mouseX && height >= mouseY && 0 <= mouseY ){
+    return true; 
+  } 
+  else {
+    return false;
+  }
 }
 
 // create a new ball when click 
@@ -139,7 +138,7 @@ function mouseClicked() {
 
 // function to when press backspace all the balls are deleted
 function keyPressed() {
-    if (keyIsDown(8)) { //backspace/delete
-      balls = []; //delete all the balls
-    }
+  if (keyIsDown(8)) { //backspace/delete
+    balls = []; //delete all the balls
+  }
 }
