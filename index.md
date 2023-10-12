@@ -7,7 +7,7 @@
 - [Perlin noise](/perlin%20noise/index.html)
 
 ## Projects
-- [Interactive Scene](/interactive%20scene%20assignment/)
+- [Interactive Scene](/interactive%20scene%20assignment/index.html)
 - [Arrays and object notations](/arrays%20assignment/)
 
 
