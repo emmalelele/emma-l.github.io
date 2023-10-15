@@ -8,8 +8,18 @@ const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 //clubs, diamonds, heart, spade
 const suits = ["C", "D", "H", "S"];
 
+let loadedCardImg = [];
+function loadCardsImg(){
+	for (let i = 0; i < numsCard; i ++){
+		let matchingImg = './images/'+takenCards[i].ranks+takenCards[i].suits+'.png'
+		loadedCardImg.push(matchingImg);
+	}
+}
 
 
+function preload(){
+
+}
 
 
 function setup(){
@@ -20,7 +30,7 @@ function draw(){
 	background("black");
 }
 
-
+//creating cards with matching ranks and suits
 function createCards() {
 	const cards = [];
 	for (let i of ranks) {
@@ -37,7 +47,7 @@ function createCards() {
 }
 console.log(createCards())
 
-// get random
+//get random cards
 function shuffleCards(array){
 	let i = 0 ;
 	let j = 0;
@@ -52,15 +62,16 @@ function shuffleCards(array){
 }
 
 let randomCard = shuffleCards(createCards());
+let takenCards = []
 console.log(randomCard);
 
-
+//take out only 5 cards to show on the screen
 function takeOutCards(){
 	let yourCards = [];
-	for (i= 0; i < numsCard; i++){
-		store = yourCards.push(randomCard.pop()) //take out the last 5 cards 
+	for (let i= 0; i < numsCard; i++){
+		let store = yourCards.push(randomCard.pop()) //take out the last 5 cards 
 	}
 	return yourCards;
 }
 console.log(takeOutCards());
-
+takenCards = takeOutCards();
