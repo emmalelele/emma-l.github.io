@@ -11,15 +11,26 @@ const suits = ["C", "D", "H", "S"];
 let loadedCardImg = [];
 function loadCardsImg(){
 	for (let i = 0; i < numsCard; i ++){
-		let matchingImg = './images/'+takenCards[i].ranks+takenCards[i].suits+'.png'
+		let matchingImg = "./images/"+takenCards[i].ranks+takenCards[i].suits+".png"
 		loadedCardImg.push(matchingImg);
 	}
 }
+console.log(loadedCardImg)
 
 
 function preload(){
-
+	let backImg = loadImage("'./images/back.png'");
+	takenCards = createCards()
+	loadCardsImg()
 }
+
+function nextCards(){
+	if (randomCard.length>=numsCard){
+		takenCards = takeOutCards();
+		loadCardsImg();
+	  } 
+	}
+ 
 
 
 function setup(){
