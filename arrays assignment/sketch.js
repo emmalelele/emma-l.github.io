@@ -8,6 +8,7 @@ const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 //clubs, diamonds, heart, spade
 const suits = ["C", "D", "H", "S"];
 
+//function to get  matching images with the cards shown in arrays
 let loadedCardImg = [];
 function loadCardsImg(){
 	for (let i = 0; i < numsCard; i ++){
@@ -20,17 +21,10 @@ console.log(loadedCardImg)
 
 function preload(){
 	let backImg = loadImage("'./images/back.png'");
-	takenCards = createCards()
-	loadCardsImg()
+	takenCards = createCards(); 
+	loadCardsImg();
 }
 
-function nextCards(){
-	if (randomCard.length>=numsCard){
-		takenCards = takeOutCards();
-		loadCardsImg();
-	  } 
-	}
- 
 
 
 function setup(){
@@ -86,3 +80,23 @@ function takeOutCards(){
 }
 console.log(takeOutCards());
 takenCards = takeOutCards();
+
+//function to take out another 5 different cards
+function nextCards(){
+	if (randomCard.length >= numsCard){ //only take out if there are enough cards left
+		takenCards = takeOutCards(); 
+		loadCardsImg();
+	  } 
+	}
+
+function flipCards(){
+	for (let i = 0; i <= numsCard; i ++){
+		takenCards.turn = !takenCards.turn
+                                                                    
+	}
+
+function displayCards(){
+	for (let i = 0; i <= numsCard; i++ ){
+		
+	}
+}
