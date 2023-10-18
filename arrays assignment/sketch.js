@@ -1,6 +1,11 @@
 // Emma Le
 // Arrays and object notation assignment
 
+const leftMargin = 50;
+const topMargin = 50;
+const cardW = 100;
+const cardH = 150;
+const gap = 20;
 let numsCard = 5;
 
 //2 to A
@@ -8,32 +13,43 @@ const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 //clubs, diamonds, heart, spade
 const suits = ["C", "D", "H", "S"];
 
-//function to get  matching images with the cards shown in arrays
 let loadedCardImg = [];
+let backImg;
+
 function loadCardsImg(){
-	for (let i = 0; i < numsCard; i ++){
-		let matchingImg = "./images/"+takenCards[i].ranks+takenCards[i].suits+".png"
-		loadedCardImg.push(matchingImg);
-	}
+  loadedCardImg = [];//delete all first
+  for (let i = 0; i < numsCard; i++){
+    let matchingImg = "./images/" + takenCards[i].rank + takenCards[i].suit + ".png";
+    console.log(matchingImg);
+    loadedCardImg.push(loadImage(matchingImg));
+  }
 }
-console.log(loadedCardImg)
 
-
-function preload(){
-	let backImg = loadImage("'./images/back.png'");
-	takenCards = createCards(); 
+function preload() {
+	backImg = loadImage("./images/back.png");
+	randomCard = shuffleCards(createCards()); //shuffle the deck
+	takenCards = takeOutCards(); //take out the first 5 cards
 	loadCardsImg();
 }
 
 
+function setup() {
+	createCanvas(2 * leftMargin + numsCard * cardW + (numsCard - 1) * gap, 2 * topMargin + cardH);
+	background("lightgray");
+	para = createElement('p',"");
+	para.position(leftMargin, height - topMargin);
 
-function setup(){
-	createCanvas(windowWidth, windowHeight); 
+
+}	  
+function draw() {
+	background("white")
+	displayCards();
+	para.html("Remaining cards: " + randomCard.length);
+	if (randomCard.length < numsCard){
+		para.html("Not enough card");
+	}
 }
 
-function draw(){
-	background("black");
-}
 
 //creating cards with matching ranks and suits
 function createCards() {
@@ -80,23 +96,41 @@ function takeOutCards(){
 }
 console.log(takeOutCards());
 takenCards = takeOutCards();
+  
 
-//function to take out another 5 different cards
 function nextCards(){
-	if (randomCard.length >= numsCard){ //only take out if there are enough cards left
-		takenCards = takeOutCards(); 
-		loadCardsImg();
-	  } 
-	}
+  if (randomCard.length >= numsCard){
+    takenCards = takeOutCards();
+    loadCardsImg();
+  } 
+}
 
-function flipCards(){
-	for (let i = 0; i <= numsCard; i ++){
-		takenCards.turn = !takenCards.turn
-                                                                    
-	}
+//turn all your cards
+function turnAllYourCards() {
+  for (let i = 0; i < numsCard; i++) {
+    takenCards[i].turn = !takenCards[i].turn;
+  }
+  displayCards(); 
+}
+
+
+function keyPressed() {
+  if (keyCode === 32) { //space bar
+    turnAllYourCards();
+  }
+  else if (keyCode === 78){ // n
+	nextCards()
+  }
+}
 
 function displayCards(){
-	for (let i = 0; i <= numsCard; i++ ){
-		
-	}
+  for (let i = 0; i < numsCard; i++){
+    if (takenCards[i].turn){
+        image(loadedCardImg[i], leftMargin + i * cardW + i* gap, topMargin, cardW, cardH);
+    }
+    else{
+        image(backImg, leftMargin + i * cardW + i * gap, topMargin, cardW, cardH);
+    }
+  }  
 }
+
