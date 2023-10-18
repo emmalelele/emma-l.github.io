@@ -1,5 +1,9 @@
 // Emma Le
 // Arrays and object notation assignment
+// Extra for expert:
+//
+
+//Instructuon: press spacebar to flip all the cards, n to move to the next 5 cards 
 
 const leftMargin = 50;
 const topMargin = 50;
@@ -20,8 +24,8 @@ const suits = ["C", "D", "H", "S"];
 function loadCardsImg(){
   loadedCardImg = [];//delete all first
   for (let i = 0; i < numsCard; i++){
-    let matchingImg = "./images/" + takenCards[i].rank + takenCards[i].suit + ".png";
-    console.log(matchingImg);
+	let matchingImg = takenCards[i].match;
+	console.log(matchingImg)
     loadedCardImg.push(loadImage(matchingImg));
   }
 }
@@ -60,7 +64,8 @@ function createCards() {
 			let card = {
                 rank: i,
                 suit: j,
-                turn: false
+                turn: false,
+				match: "./images/" + i + j + ".png"
             };  
 			cards.push(card);
 		}
@@ -89,7 +94,7 @@ console.log(randomCard);
 //take out only 5 cards to show on the screen
 function takeOutCards(){
 	let yourCards = [];
-	for (let i= 0; i < numsCard; i++){
+	for (let i = 0; i < numsCard; i++){
 		let store = yourCards.push(randomCard.pop()) //take out the last 5 cards 
 	}
 	return yourCards;
@@ -107,10 +112,12 @@ function nextCards(){
 
 //turn all your cards
 function turnAllYourCards() {
-  for (let i = 0; i < numsCard; i++) {
-    takenCards[i].turn = !takenCards[i].turn;
-  }
-  displayCards(); 
+
+	takenCards.forEach((element) => takenCards[element].turn = !takenCards[element].turn);
+//   for (let i = 0; i < numsCard; i++) {
+//     takenCards[i].turn = !takenCards[i].turn;
+//   }
+	displayCards(); 
 }
 
 
