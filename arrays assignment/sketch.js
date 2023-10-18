@@ -7,14 +7,15 @@ const cardW = 100;
 const cardH = 150;
 const gap = 20;
 let numsCard = 5;
+let loadedCardImg = [];
+let backImg;
+let takenCards = []
 
 //2 to A
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 //clubs, diamonds, heart, spade
 const suits = ["C", "D", "H", "S"];
 
-let loadedCardImg = [];
-let backImg;
 
 function loadCardsImg(){
   loadedCardImg = [];//delete all first
@@ -83,7 +84,6 @@ function shuffleCards(array){
 }
 
 let randomCard = shuffleCards(createCards());
-let takenCards = []
 console.log(randomCard);
 
 //take out only 5 cards to show on the screen
