@@ -5,6 +5,7 @@
 - [Square moving around](/square%20moving%20around/index.html)
 - [Ball Array](03-ball-array)
 - [Perlin noise](/perlin%20noise/index.html)
+- [Sound and Images](04-sound-images)
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
