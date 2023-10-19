@@ -21,6 +21,8 @@ let loadedCardImg = [];
 let backImg;
 let takenCards = [];
 let randomCard;
+let clickSound;
+let endSound;
 
 //2 to A
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
@@ -33,7 +35,6 @@ function loadCardsImg(){
   loadedCardImg = [];//delete all first so we can get matching images
   for (let i = 0; i < numsCard; i++){
 	let matchingImg = takenCards[i].match;
-	console.log(matchingImg);
     loadedCardImg.push(loadImage(matchingImg));
   }
 }
@@ -41,6 +42,8 @@ function loadCardsImg(){
 //load the images
 function preload() {
   backImg = loadImage("./images/back.png");
+  clickSound = loadSound("smb_kick.wav");
+  endSound = loadSound("smb_mariodie.wav");
   randomCard = createCards(); //create the deck
   shuffleCards(randomCard); //shuffle the deck
   takenCards = takeOutCards(); // take out the first 5 cards
@@ -55,6 +58,7 @@ function setup() {
 	button = createButton("Next card");
 	button.position(0,3);
 	button.mousePressed(nextCards);
+	// button.playSound(clickSound)
 }
 
 //draw cards on screen
@@ -137,7 +141,10 @@ function keyPressed() {
 	  turnAllYourCards();
 	}
 	else if (keyCode === 78){ // n
-	  nextCards()
+	  nextCards();
 	}
-  }
+}
 
+function mousePressed(){
+	clickSound.playSound();
+}
