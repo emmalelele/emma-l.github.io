@@ -1,10 +1,16 @@
 // Emma Le
 // Arrays and object notation assignment
 // Extra for expert:
-//
+	// I used p5js built-in function "shuffle()" to shuffle the deck
+	// Button to move cards and disable it when numbers of cards run out
+	// Used "const" for unchangeable variables
+	// Match the images with cards in the array and put it as an object notation
+	// Discovered the use of forEach, instruction from https://www.freecodecamp.org/news/javascript-foreach-js-array-for-each-example/
 
-//Instructuon: press spacebar to flip all the cards, n to move to the next 5 cards 
+//Instruction: press spacebar to flip all the cards, n to move to the next 5 cards 
 
+
+//define variables
 const leftMargin = 50;
 const topMargin = 50;
 const cardW = 100;
@@ -13,45 +19,52 @@ const gap = 20;
 let numsCard = 5;
 let loadedCardImg = [];
 let backImg;
-let takenCards = []
+let takenCards = [];
+let randomCard;
 
 //2 to A
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
+
 //clubs, diamonds, heart, spade
 const suits = ["C", "D", "H", "S"];
 
-
+//get the images match the cards in the array
 function loadCardsImg(){
-  loadedCardImg = [];//delete all first
+  loadedCardImg = [];//delete all first so we can get matching images
   for (let i = 0; i < numsCard; i++){
 	let matchingImg = takenCards[i].match;
-	console.log(matchingImg)
+	console.log(matchingImg);
     loadedCardImg.push(loadImage(matchingImg));
   }
 }
 
+//load the images
 function preload() {
-	backImg = loadImage("./images/back.png");
-	randomCard = shuffleCards(createCards()); //shuffle the deck
-	takenCards = takeOutCards(); //take out the first 5 cards
-	loadCardsImg();
+  backImg = loadImage("./images/back.png");
+  randomCard = createCards(); //create the deck
+  shuffleCards(randomCard); //shuffle the deck
+  takenCards = takeOutCards(); // take out the first 5 cards
+  loadCardsImg();
 }
 
-
+//set up
 function setup() {
 	createCanvas(2 * leftMargin + numsCard * cardW + (numsCard - 1) * gap, 2 * topMargin + cardH);
-	background("lightgray");
 	para = createElement('p',"");
 	para.position(leftMargin, height - topMargin);
+	button = createButton("Next card");
+	button.position(0,3);
+	button.mousePressed(nextCards);
+}
 
-
-}	  
+//draw cards on screen
 function draw() {
 	background("white")
 	displayCards();
 	para.html("Remaining cards: " + randomCard.length);
-	if (randomCard.length < numsCard){
-		para.html("Not enough card");
+	if (randomCard.length < numsCard){ //when the cards run out means we can't take out another cards
+		para.html("Not enough card"); 
+		button.attribute("disabled", "true");
 	}
 }
 
@@ -64,47 +77,35 @@ function createCards() {
 			let card = {
                 rank: i,
                 suit: j,
-                turn: false,
-				match: "./images/" + i + j + ".png"
+                turn: false, //the cards are upside down when display on screen
+				match: "./images/" + i + j + ".png" //match images
             };  
 			cards.push(card);
 		}
 	}
 	return cards;
 }
-console.log(createCards())
+
 
 //get random cards
 function shuffleCards(array){
-	let i = 0 ;
-	let j = 0;
-	let store = 0;
-	for (i = array.length - 1; i > 0; i --){
-		j = Math.floor(Math.random()*i);  //get the random elements from 0 to i - 1 
-		store = array[i];
-		array[i] = array[j];
-		array[j] = store;
-	}
-	return array;
+	shuffle(array, true);
 }
 
-let randomCard = shuffleCards(createCards());
-console.log(randomCard);
 
 //take out only 5 cards to show on the screen
 function takeOutCards(){
 	let yourCards = [];
 	for (let i = 0; i < numsCard; i++){
-		let store = yourCards.push(randomCard.pop()) //take out the last 5 cards 
-	}
+		yourCards.push(randomCard.pop())
+	}	
 	return yourCards;
 }
-console.log(takeOutCards());
-takenCards = takeOutCards();
   
 
+//move to the next 5 cards in the deck
 function nextCards(){
-  if (randomCard.length >= numsCard){
+  if (randomCard.length >= numsCard){ //only move when there are enough cards
     takenCards = takeOutCards();
     loadCardsImg();
   } 
@@ -112,32 +113,31 @@ function nextCards(){
 
 //turn all your cards
 function turnAllYourCards() {
-
-	takenCards.forEach((element) => takenCards[element].turn = !takenCards[element].turn);
-//   for (let i = 0; i < numsCard; i++) {
-//     takenCards[i].turn = !takenCards[i].turn;
-//   }
-	displayCards(); 
+    for (let i of takenCards) {
+        i.turn = !i.turn;
+    }
+    displayCards(); 
 }
 
+
+//display the cards
+function displayCards(){
+	takenCards.forEach((card, i) => {
+		if (card.turn){
+			image(loadedCardImg[i], leftMargin + i * cardW + i* gap, topMargin, cardW, cardH);
+		}
+		else{
+			image(backImg, leftMargin + i * cardW + i * gap, topMargin, cardW, cardH);
+		}
+	  });
+}
 
 function keyPressed() {
-  if (keyCode === 32) { //space bar
-    turnAllYourCards();
+	if (keyCode === 32) { //space bar
+	  turnAllYourCards();
+	}
+	else if (keyCode === 78){ // n
+	  nextCards()
+	}
   }
-  else if (keyCode === 78){ // n
-	nextCards()
-  }
-}
-
-function displayCards(){
-  for (let i = 0; i < numsCard; i++){
-    if (takenCards[i].turn){
-        image(loadedCardImg[i], leftMargin + i * cardW + i* gap, topMargin, cardW, cardH);
-    }
-    else{
-        image(backImg, leftMargin + i * cardW + i * gap, topMargin, cardW, cardH);
-    }
-  }  
-}
 
