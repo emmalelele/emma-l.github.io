@@ -6,6 +6,7 @@
 - [Ball Array](03-ball-array)
 - [Perlin noise](/perlin%20noise/index.html)
 - [Sound and Images](04-sound-images)
+- [Colorful balls loop](05-colorful-balls-loop)
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
