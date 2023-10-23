@@ -7,6 +7,7 @@
 - [Perlin noise](/perlin%20noise/index.html)
 - [Sound and Images](04-sound-images)
 - [Colorful balls loop](05-colorful-balls-loop)
+- [Terrain demo](06-terrain)
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
