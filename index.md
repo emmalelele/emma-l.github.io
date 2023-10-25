@@ -8,6 +8,7 @@
 - [Sound and Images](04-sound-images)
 - [Colorful balls loop](05-colorful-balls-loop)
 - [Terrain demo](06-terrain)
+- [Draw a grid](07-2d-grid)
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
