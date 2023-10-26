@@ -9,6 +9,8 @@
 - [Colorful balls loop](05-colorful-balls-loop)
 - [Terrain demo](06-terrain)
 - [Draw a grid](07-2d-grid)
+- [Grid neighbors](08-grid-neighbors)
+
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
