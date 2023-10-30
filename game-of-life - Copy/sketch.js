@@ -9,16 +9,21 @@
 let grid;
 const GRID_SIZE = 40;
 let cellSize;
-let autoPlay = true;
-let gosperGun;
+let playerX = 0;
+let playerY = 0;
 
-function preload(){
-  gosperGun = loadJSON("gosper-pun.json");
-}
+
+
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+
+  // put player in grid
+
+  grid[playerY][playerX] = 9;
 
   if (height > width) {
     cellSize = width/GRID_SIZE;
@@ -31,9 +36,6 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
-  if (autoPlay && frameCount % 10 === 0){
-    grid = nextTurn()
-  }
   displayGrid();
 }
 
@@ -47,11 +49,35 @@ function keyTyped() {
   else if (key === " ") {
     grid = nextTurn();
   }
-  else if (key === "a") {
-    autoPlay = !autoPlay;
+  else if (key === "s"){ //move down
+    movePlayer(0,1);
   }
-  else if (key === "g"){
-    grid = gosperGun
+  else if (key === "w"){ //move down
+    movePlayer(0,-1);
+  }
+  else if (key === "a"){ //move left
+    movePlayer(-1,0);
+  }
+  else if (key === "d"){ //move left
+    movePlayer(1,0);
+  }
+}
+
+function movePlayer(x,y){
+  //edge case check
+  if (playerX + x >= 0 && playerX + x < GRID_SIZE && playerY + y >= 0 && playerY + y < GRID_SIZE  ){
+    //check if running into wall
+    if (grid[playerY + y][playerX+x] === 0){
+      let tempX = playerX;
+      let tempY = playerY;
+
+      playerX += x;
+      playerY += y;
+
+      //update grid
+      grid[playerY][playerX] = 9;
+      grid[tempY][tempX] = 0;
+    }
   }
 }
 
@@ -131,6 +157,9 @@ function displayGrid() {
       }
       else if (grid[y][x] === 1) {
         fill("black");
+      }
+      else if (grid[y][x] === 9){
+        fill("green");
       }
       rect(x*cellSize, y*cellSize, cellSize, cellSize);
     }
