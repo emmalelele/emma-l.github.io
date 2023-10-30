@@ -10,7 +10,7 @@
 - [Terrain demo](06-terrain)
 - [Draw a grid](07-2d-grid)
 - [Grid neighbors](08-grid-neighbors)
-- [CharacterGrid](game-of-life- Copy)
+- [CharacterGrid](game-of-life - Copy)
 - [GameOfLife](game-of-life)
 
 
