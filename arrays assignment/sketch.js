@@ -1,6 +1,4 @@
 // Emma Le
-//CS30
-//October 19 2023
 // Arrays and object notation assignment
 // Extra for expert:
 	// I used p5js built-in function "shuffle()" to shuffle the deck
@@ -9,7 +7,7 @@
 	// Match the images with cards in the array and put it as an object notation
 	// Discovered the use of forEach, instruction from https://www.freecodecamp.org/news/javascript-foreach-js-array-for-each-example/
 
-//Instruction: press spacebar to flip all the cards
+//Instruction: press spacebar to flip all the cards, n to move to the next 5 cards 
 
 
 //define variables
@@ -45,16 +43,17 @@ function loadCardsImg(){
 function preload() {
   backImg = loadImage("./images/back.png");
   clickSound = loadSound("smb_kick.wav");
+  endSound = loadSound("smb_mariodie.wav");
   randomCard = createCards(); //create the deck
   shuffleCards(randomCard); //shuffle the deck
-  takenCards = takeOutCards(); //take out the first 5 cards
+  takenCards = takeOutCards(); // take out the first 5 cards
   loadCardsImg();
 }
 
 //set up
 function setup() {
 	createCanvas(2 * leftMargin + numsCard * cardW + (numsCard - 1) * gap, 2 * topMargin + cardH);
-	para = createElement("p","");
+	para = createElement('p',"");
 	para.position(leftMargin, height - topMargin);
 	button = createButton("Next card");
 	button.position(0,3);
@@ -64,14 +63,12 @@ function setup() {
 
 //draw cards on screen
 function draw() {
-	background("white");
+	background("white")
 	displayCards();
 	para.html("Remaining cards: " + randomCard.length);
 	if (randomCard.length < numsCard){ //when the cards run out means we can't take out another cards
 		para.html("Not enough card"); 
-		para.position(width/2, height/2);
-		para.class("custom-para");
-		button.attribute("disabled", "true"); //disable button
+		button.attribute("disabled", "true");
 	}
 }
 
@@ -104,7 +101,7 @@ function shuffleCards(array){
 function takeOutCards(){
 	let yourCards = [];
 	for (let i = 0; i < numsCard; i++){
-		yourCards.push(randomCard.pop());
+		yourCards.push(randomCard.pop())
 	}	
 	return yourCards;
 }
@@ -115,6 +112,7 @@ function nextCards(){
   if (randomCard.length >= numsCard){ //only move when there are enough cards
     takenCards = takeOutCards();
     loadCardsImg();
+	endSound.play()
   } 
 }
 
@@ -130,23 +128,24 @@ function turnAllYourCards() {
 //display the cards
 function displayCards(){
 	takenCards.forEach((card, i) => {
-		if (card.turn){ //when cards are flipped
+		if (card.turn){
 			image(loadedCardImg[i], leftMargin + i * cardW + i* gap, topMargin, cardW, cardH);
 		}
-		else{ //when cards are upside down
+		else{
 			image(backImg, leftMargin + i * cardW + i * gap, topMargin, cardW, cardH);
 		}
 	  });
 }
 
-//press space bar to flip the card
 function keyPressed() {
 	if (keyCode === 32) { //space bar
 	  turnAllYourCards();
 	}
+	else if (keyCode === 78){ // n
+	  nextCards();
+	}
 }
 
-//when press the button there's gonna be sounds
 function mousePressed(){
 	clickSound.play();
 }
