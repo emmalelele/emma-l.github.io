@@ -5,15 +5,28 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let GRID_SIZE = 5;
-let grid_level = 3;
+const GRID_SIZE = 10;
+let grid_level = 2;
 let grid;
 let cellSize;
-let gap = 4;
+let clickEnable;
+let gameOver = false;
+const GAP = 6;
 
 let currentColor0 = [];
 let currentColor1 = [];
-let currentDeltaColor = 70;
+let currentDeltaColor = 64;
+
+// [grid_level][currentDeltaColor]
+const levels = [ [2,64],[2,62],[2,60],
+                 [3,54],[3,51],[3,50],
+                 [4,44],[4,42],[4,41],[4,39],
+                 [5,38],[5,36],[5,34],[5,32],[5,30],
+                 [6,29],[6,28],[6,27],[6,26],[6,25],[6,24],[6,23],[6,22],[6,21],[6,20]
+               ]
+               
+
+let currentLevel = 0;
 
 
 
@@ -35,6 +48,51 @@ function draw() {
   displayGrid(currentColor0,currentColor1);
 }
 
+function mouseMoved(){ 
+  let pixelColor = get(mouseX, mouseY);
+  
+  if (JSON.stringify(pixelColor) === JSON.stringify(currentColor0.levels) || JSON.stringify(pixelColor) === JSON.stringify(currentColor1.levels)){
+     cursor(HAND);
+     
+  }
+  else{
+     cursor("not-allowed");
+     
+  }
+}
+
+function mousePressed() {
+  let y = Math.floor(mouseY/cellSize);
+  let x = Math.floor(mouseX/cellSize);
+
+  toggleCell(x, y);//current cell
+}
+
+
+function toggleCell(x, y) {
+  //check that we are within the grid.
+  if (x >= 0 && x < grid_level && y >= 0 && y < grid_level) {
+    if (grid[y][x] === 1) {
+      nextLevel()
+    } 
+    else if (grid[y][x] === 0) {
+      gameOver = true;
+    }
+  }
+}
+
+function nextLevel(){
+  currentLevel += 1;
+  if (currentLevel < levels.length){
+    grid_level = levels[currentLevel][0];
+    currentDeltaColor = levels[currentLevel][1];
+    randomColor();
+    grid = generateGrid(grid_level, grid_level);
+  }
+}
+
+
+
 
 function randomColor(){
   colorMode(RGB); 
@@ -45,12 +103,12 @@ function randomColor(){
   currentColor0 = color(r,g,b); //set the general color to all the square
   
   let colorTemp = [r,g,b]; 
-  let i = Math.floor(random()*3);
-  if (colorTemp[i]>currentDeltaColor){ 
-    colorTemp[i] -= currentDeltaColor;
+  let i = Math.floor(random()*3); // random number 0, 1 or 3
+  if (colorTemp[i] > currentDeltaColor){ //check which color component [r,g,b] is greater than 
+    colorTemp[i] -= currentDeltaColor; //slightly lighter
   }
   else{
-    colorTemp[i] += currentDeltaColor; 
+    colorTemp[i] += currentDeltaColor; //slightly darker
   }
   currentColor1 = color(colorTemp[0],colorTemp[1],colorTemp[2]); //set one square with slightly different color
 }
@@ -58,19 +116,21 @@ function randomColor(){
 
 
 function displayGrid(c0, c1){
+  colorMode(RGB);
   noStroke();
-  for (let y = 0; y < grid_level; y ++){
-    for (let x = 0; x < grid_level; x ++){
+  for (let y = 0; y < grid_level; y++){
+    for (let x = 0; x < grid_level; x++){
       if (grid[y][x] === 0){
         fill(c0);
       }
       else{
         fill(c1);
       }
-      rect(x * (cellSize + gap), y * (cellSize + gap), cellSize, cellSize);
+      rect(x * (cellSize + GAP), y * (cellSize + GAP), cellSize, cellSize);
     } 
   }
 }
+
 
 function generateGrid(cols,rows){
   let newArr = [];
@@ -86,8 +146,6 @@ function generateGrid(cols,rows){
   let randomCol = floor(random(cols));
                         
   newArr[randomRow][randomCol] = 1; 
-  console.log(newArr);
 
   return newArr;
 }
-
