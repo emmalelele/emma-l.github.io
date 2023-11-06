@@ -9,13 +9,14 @@ const GRID_SIZE = 10;
 let grid_level = 2;
 let grid;
 let cellSize;
-let clickEnable;
 let gameOver = false;
 const GAP = 6;
 
 let currentColor0 = [];
 let currentColor1 = [];
 let currentDeltaColor = 64;
+
+let endGame = false;
 
 // [grid_level][currentDeltaColor]
 const levels = [ [2,64],[2,62],[2,60],
@@ -32,6 +33,8 @@ let currentLevel = 0;
 
 
 function setup() {
+  para1 = createElement('p', "");
+  para1.position(width/3+8,height/3);
   createCanvas(windowWidth, windowHeight);
   if (height > width){
     cellSize = width/GRID_SIZE;
@@ -45,12 +48,22 @@ function setup() {
 
 function draw() {
   background(220);
-  displayGrid(currentColor0,currentColor1);
+  if (gameOver === false){
+    displayGrid(currentColor0,currentColor1);
+  }
+  else if (endGame){
+    para1.html("Gj");
+  }
+  else{
+    para1.html("Game Over!");
+  }
+
 }
 
+//changing cursor
 function mouseMoved(){ 
   let pixelColor = get(mouseX, mouseY);
-  
+  //check if the mouse is within the grids
   if (JSON.stringify(pixelColor) === JSON.stringify(currentColor0.levels) || JSON.stringify(pixelColor) === JSON.stringify(currentColor1.levels)){
      cursor(HAND);
      
@@ -70,16 +83,16 @@ function mousePressed() {
 
 
 function toggleCell(x, y) {
-  //check that we are within the grid.
-  if (x >= 0 && x < grid_level && y >= 0 && y < grid_level) {
-    if (grid[y][x] === 1) {
-      nextLevel()
-    } 
-    else if (grid[y][x] === 0) {
+
+  let mouseToClick = get(mouseX, mouseY);
+  if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor1.levels)) { //if the mouse is clicked on grid that is element 1
+      nextLevel();
+  }
+  else if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor0.levels)) {//if the mouse is clicked on grid that is element 0
       gameOver = true;
     }
-  }
 }
+
 
 function nextLevel(){
   currentLevel += 1;
@@ -89,9 +102,10 @@ function nextLevel(){
     randomColor();
     grid = generateGrid(grid_level, grid_level);
   }
+  else{
+    endGame = true;
+  }
 }
-
-
 
 
 function randomColor(){
