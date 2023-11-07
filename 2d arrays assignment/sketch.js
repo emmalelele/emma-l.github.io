@@ -19,7 +19,7 @@ let currentDeltaColor = 64;
 let endGame = false;
 
 // [grid_level][currentDeltaColor]
-const levels = [
+const gameLevels = [
   [2, 64], 
   [2, 62],  
   [3, 54], 
@@ -37,14 +37,15 @@ const levels = [
 ];
                
 
-let currentLevel = 0;
+let currentLevel = 1;
 
 
 
 
 function setup() {
   para1 = createElement('p', "");
-  para1.position(width/3+8,height/3);
+  para2 = createElement('p', "");
+  para2.position(width,height);
   createCanvas(windowWidth, windowHeight);
   if (height > width){
     cellSize = width/GRID_SIZE;
@@ -53,7 +54,7 @@ function setup() {
     cellSize = height/GRID_SIZE;
   }
   grid = generateGrid(grid_level, grid_level);
-  console.log(grid)
+  console.log(grid);
   randomColor();
 }
 
@@ -65,9 +66,12 @@ function draw() {
     } 
     else {
       para1.html("Game Over!");
+      displayGrid(currentColor0, currentColor1, true);
     }
-  } else {
-    displayGrid(currentColor0, currentColor1);
+  } 
+  else {
+    displayGrid(currentColor0, currentColor1, false);
+    para2.html("Level: " + currentLevel)
   }
 
 }
@@ -108,9 +112,9 @@ console.log(currentColor1.levels)
 
 function nextLevel(){
   currentLevel += 1;
-  if (currentLevel < levels.length){
-    grid_level = levels[currentLevel][0];
-    currentDeltaColor = levels[currentLevel][1];
+  if (currentLevel < gameLevels.length){
+    grid_level = gameLevels[currentLevel - 1][0];
+    currentDeltaColor = gameLevels[currentLevel - 1][1];
     randomColor();
     grid = generateGrid(grid_level, grid_level);
   }
@@ -142,7 +146,7 @@ function randomColor(){
 
 
 
-function displayGrid(c0, c1){
+function displayGrid(c0, c1, showTheAnswer){
   colorMode(RGB);
   noStroke();
   for (let y = 0; y < grid_level; y++){
@@ -152,6 +156,10 @@ function displayGrid(c0, c1){
       }
       else{
         fill(c1);
+        if (showTheAnswer){
+          strokeWeight(2*GAP);
+          stroke(0);
+        }
       }
       rect(x * (cellSize + GAP), y * (cellSize + GAP), cellSize, cellSize);
     } 
