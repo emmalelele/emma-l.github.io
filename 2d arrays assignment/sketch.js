@@ -19,12 +19,22 @@ let currentDeltaColor = 64;
 let endGame = false;
 
 // [grid_level][currentDeltaColor]
-const levels = [ [2,64],[2,62],[2,60],
-                 [3,54],[3,51],[3,50],
-                 [4,44],[4,42],[4,41],[4,39],
-                 [5,38],[5,36],[5,34],[5,32],[5,30],
-                 [6,29],[6,28],[6,27],[6,26],[6,25],[6,24],[6,23],[6,22],[6,21],[6,20]
-               ]
+const levels = [
+  [2, 64], 
+  [2, 62],  
+  [3, 54], 
+  [3, 51],  
+  [4, 48],   
+  [4, 45],  
+  [5, 40],  
+  [5, 37],  
+  [6, 32],  
+  [6, 29],  
+  [7, 20],  
+  [7, 15],  
+  [8, 10],  
+  [8, 5],   
+];
                
 
 let currentLevel = 0;
@@ -43,28 +53,30 @@ function setup() {
     cellSize = height/GRID_SIZE;
   }
   grid = generateGrid(grid_level, grid_level);
+  console.log(grid)
   randomColor();
 }
 
 function draw() {
   background(220);
-  if (gameOver === false){
-    displayGrid(currentColor0,currentColor1);
-  }
-  else if (endGame){
-    para1.html("Gj");
-  }
-  else{
-    para1.html("Game Over!");
+  if (gameOver) {
+    if (endGame) {
+      para1.html("Good job!");
+    } 
+    else {
+      para1.html("Game Over!");
+    }
+  } else {
+    displayGrid(currentColor0, currentColor1);
   }
 
 }
 
 //changing cursor
 function mouseMoved(){ 
-  let pixelColor = get(mouseX, mouseY);
+  let mousePosition = get(mouseX, mouseY);
   //check if the mouse is within the grids
-  if (JSON.stringify(pixelColor) === JSON.stringify(currentColor0.levels) || JSON.stringify(pixelColor) === JSON.stringify(currentColor1.levels)){
+  if (JSON.stringify(mousePosition) === JSON.stringify(currentColor0.levels) || JSON.stringify(mousePosition) === JSON.stringify(currentColor1.levels)){
      cursor(HAND);
      
   }
@@ -78,12 +90,11 @@ function mousePressed() {
   let y = Math.floor(mouseY/cellSize);
   let x = Math.floor(mouseX/cellSize);
 
-  toggleCell(x, y);//current cell
+  toggleCell();//current cell
 }
 
 
-function toggleCell(x, y) {
-
+function toggleCell() {
   let mouseToClick = get(mouseX, mouseY);
   if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor1.levels)) { //if the mouse is clicked on grid that is element 1
       nextLevel();
@@ -104,6 +115,7 @@ function nextLevel(){
   }
   else{
     endGame = true;
+    gameOver = true;
   }
 }
 
