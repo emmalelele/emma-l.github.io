@@ -3,7 +3,7 @@
 // Date
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// used JSON.stringify
 
 const GRID_SIZE = 10;
 let grid_level = 2;
@@ -103,6 +103,7 @@ function toggleCell() {
       gameOver = true;
     }
 }
+console.log(currentColor1.levels)
 
 
 function nextLevel(){
@@ -130,7 +131,7 @@ function randomColor(){
   
   let colorTemp = [r,g,b]; 
   let i = Math.floor(random()*3); // random number 0, 1 or 3
-  if (colorTemp[i] > currentDeltaColor){ //check which color component [r,g,b] is greater than 
+  if (colorTemp[i] > currentDeltaColor){ //check which color component [r,g,b] is greater than the general color
     colorTemp[i] -= currentDeltaColor; //slightly lighter
   }
   else{
