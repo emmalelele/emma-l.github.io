@@ -107,7 +107,7 @@ function toggleCell() {
   let mouseToClick = get(mouseX, mouseY);
   if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor1.levels)) { //if the mouse is clicked on grid that is element 1
       nextLevel();
-      bgSound.play()
+
   }
   else if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor0.levels)) {//if the mouse is clicked on grid that is element 0
       gameOver = true;
