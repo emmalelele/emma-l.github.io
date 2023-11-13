@@ -18,6 +18,7 @@
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
 - [Arrays and object notations](/arrays%20assignment/)
+- [2D Arrays assignment ](/2d%20arrays%20assignment/)
 
 
 

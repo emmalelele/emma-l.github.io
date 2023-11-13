@@ -1,6 +1,6 @@
-// Project Title
+// 2D aray assignment
 // Emma Le
-// Date
+// CS30
 //
 // Extra for Experts:
 // used JSON.stringify
@@ -11,10 +11,12 @@ let grid;
 let cellSize;
 let gameOver = false;
 let gameOverSound;
-let bgSound;
+let winGameSound;
+let clickSound;
 let endGame = false;
 const GAP = 7;
 
+//color
 let currentColor0 = [];
 let currentColor1 = [];
 let currentDeltaColor = 64;
@@ -56,10 +58,13 @@ function setup() {
   else{
     cellSize = height/GRID_SIZE;
   }
+  //loading sound
   gameOverSound = loadSound("smb_mariodie.wav");
-  bgSound = loadSound("bgsound.mp3")
+  winGameSound = loadSound("smb_warning.wav")
+  clickSound = loadSound("mouse-click-153941.mp3")
+
+  //get the grid
   grid = generateGrid(grid_level, grid_level);
-  console.log(grid);
   randomColor();
 }
 
@@ -74,7 +79,7 @@ function draw() {
       
     }
   } 
-  else {
+  else { //draw the grid
     displayGrid(currentColor0, currentColor1, false);
     para2.html("Level: " + currentLevel);
   }
@@ -95,6 +100,7 @@ function mouseMoved(){
   }
 }
 
+//check if the mouse is pressed
 function mousePressed() {
   let y = Math.floor(mouseY/cellSize);
   let x = Math.floor(mouseX/cellSize);
@@ -102,36 +108,40 @@ function mousePressed() {
   toggleCell();//current cell
 }
 
-
+//check where the mouse get pressed (0 or 1)
 function toggleCell() {
   let mouseToClick = get(mouseX, mouseY);
   if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor1.levels)) { //if the mouse is clicked on grid that is element 1
       nextLevel();
+      clickSound.play()
+      
 
   }
   else if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor0.levels)) {//if the mouse is clicked on grid that is element 0
       gameOver = true;
       gameOverSound.play()
+      
     }
 }
 console.log(currentColor1.levels)
 
-
+//if the mouse is pressed on 1, advance to next level
 function nextLevel(){
   currentLevel += 1;
-  if (currentLevel < gameLevels.length){
+  if (currentLevel < gameLevels.length){ //run through the 2d array "level
     grid_level = gameLevels[currentLevel - 1][0];
     currentDeltaColor = gameLevels[currentLevel - 1][1];
     randomColor();
     grid = generateGrid(grid_level, grid_level);
   }
-  else{
+  else{ //reach the end of the 2d array level
     endGame = true;
     gameOver = true;
+    winGameSound.play()
   }
 }
 
-
+//get random color
 function randomColor(){
   colorMode(RGB); 
   let r = Math.floor(random()*255);
@@ -152,8 +162,8 @@ function randomColor(){
 }
 
 
-
-function displayGrid(c0, c1, showTheAnswer){
+//dísplay the grid
+function displayGrid(c0, c1){
   colorMode(RGB);
   noStroke();
   let gridWidth = grid_level * (cellSize + GAP);
@@ -169,17 +179,13 @@ function displayGrid(c0, c1, showTheAnswer){
       }
       else{
         fill(c1);
-        if (showTheAnswer){
-          strokeWeight(2*GAP);
-          stroke(0);
-        }
       }
       rect(x * (cellSize + GAP) + x1, y * (cellSize + GAP) + y1, cellSize, cellSize);
     } 
   }
 }
 
-
+//create the grid with 1 and 0 
 function generateGrid(cols,rows){
   let newArr = [];
   for (let y = 0; y < rows; y ++){
