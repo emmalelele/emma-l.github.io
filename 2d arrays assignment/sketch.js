@@ -1,9 +1,10 @@
 // 2D aray assignment
 // Emma Le
-// CS30
-//
+// November 13, 2023
+// CS30 
 // Extra for Experts:
 // used JSON.stringify
+// windowResize
 
 const GRID_SIZE = 10;
 let gridLevel = 2;
@@ -14,12 +15,11 @@ let gameOverSound;
 let winGameSound;
 let clickSound;
 let endGame = false;
-let timer = 13;
 const GAP = 7;
 
 //color
-let currentColor0 = [];
-let currentColor1 = [];
+let currentColor0 ;
+let currentColor1 ;
 let currentDeltaColor = 64;
 
 
@@ -43,12 +43,10 @@ let gameLevels = [
   [10, 1],
 ];
                
-
+//starting level
 let currentLevel = 1;
 
-
-
-
+//set ups
 function setup() {
   para1 = createElement('p', "");
   para2 = createElement('p', "");
@@ -77,6 +75,7 @@ function draw() {
   if (gameOver) {
     if (endGame) {
       para1.html("Good job!");
+      
     } 
     else {
       para1.html("Game Over!");
@@ -84,10 +83,15 @@ function draw() {
       
     }
   else { //draw the grid
-    displayGrid(currentColor0, currentColor1, false);
+    displayGrid(currentColor0, currentColor1);
     para2.html("Level: " + currentLevel);
   }
 
+}
+
+//resize window
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 //changing cursor
@@ -135,8 +139,8 @@ function nextLevel(){
   if (currentLevel < gameLevels.length){ //run through the 2d array gameLevel
     gridLevel = gameLevels[currentLevel - 1][0];
     currentDeltaColor = gameLevels[currentLevel - 1][1];
-    randomColor();
     grid = generateGrid(gridLevel, gridLevel);
+    randomColor();
   }
   else{ //reach the end of the 2d array gameLevels
     endGame = true;
