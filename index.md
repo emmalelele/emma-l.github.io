@@ -12,6 +12,7 @@
 - [Grid neighbors](08-grid-neighbors)
 - [CharacterGrid](/game-of-life%20-%20Copy/)
 - [GameOfLife](game-of-life)
+- [Dog oop](oop-demo)
 
 
 
