@@ -60,7 +60,7 @@ function setup() {
     cellSize = height/GRID_SIZE;
   }
   //loading sound
-  gameOverSound = loadSound("smb_mariodie.wav");
+  gameOverSound = loadSound("smb_mariodie.wav"); 
   winGameSound = loadSound("smb_warning.wav")
   clickSound = loadSound("clicking.mp3")
 
