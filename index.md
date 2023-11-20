@@ -10,14 +10,16 @@
 - [Terrain demo](06-terrain)
 - [Draw a grid](07-2d-grid)
 - [Grid neighbors](08-grid-neighbors)
-- [CharacterGrid](game-of-life-Copy)
+- [CharacterGrid](/game-of-life%20-%20Copy/)
 - [GameOfLife](game-of-life)
+- [Dog oop](oop-demo)
 
 
 
 ## Projects
 - [Interactive Scene](/interactive%20scene%20assignment/index.html)
 - [Arrays and object notations](/arrays%20assignment/)
+- [2D Arrays assignment ](/2d%20arrays%20assignment/)
 
 
 

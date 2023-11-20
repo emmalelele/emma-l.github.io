@@ -1,25 +1,30 @@
-// Project Title
+// 2D aray assignment
 // Emma Le
-// Date
-//
+// November 13, 2023
+// CS30 
 // Extra for Experts:
 // used JSON.stringify
+// windowResize
 
 const GRID_SIZE = 10;
-let grid_level = 2;
+let gridLevel = 2;
 let grid;
 let cellSize;
 let gameOver = false;
-const GAP = 6;
+let gameOverSound;
+let winGameSound;
+let clickSound;
+let endGame = false;
+const GAP = 7;
 
-let currentColor0 = [];
-let currentColor1 = [];
+//color
+let currentColor0 ;
+let currentColor1 ;
 let currentDeltaColor = 64;
 
-let endGame = false;
 
-// [grid_level][currentDeltaColor]
-const levels = [
+// [gridLevel][currentDeltaColor]
+let gameLevels = [
   [2, 64], 
   [2, 62],  
   [3, 54], 
@@ -33,18 +38,20 @@ const levels = [
   [7, 20],  
   [7, 15],  
   [8, 10],  
-  [8, 5],   
+  [8, 5], 
+  [9, 2],
+  [10, 1],
 ];
                
+//starting level
+let currentLevel = 1;
 
-let currentLevel = 0;
-
-
-
-
+//set ups
 function setup() {
   para1 = createElement('p', "");
-  para1.position(width/3+8,height/3);
+  para2 = createElement('p', "");
+  para1.position(windowWidth/2 - 25,windowHeight/2);
+  para2.position(width/2,height/2);
   createCanvas(windowWidth, windowHeight);
   if (height > width){
     cellSize = width/GRID_SIZE;
@@ -52,24 +59,39 @@ function setup() {
   else{
     cellSize = height/GRID_SIZE;
   }
-  grid = generateGrid(grid_level, grid_level);
-  console.log(grid)
+  //loading sound
+  gameOverSound = loadSound("smb_mariodie.wav"); 
+  winGameSound = loadSound("smb_warning.wav")
+  clickSound = loadSound("clicking.mp3")
+
+  //get the grid
+  grid = generateGrid(gridLevel, gridLevel);
   randomColor();
 }
 
+//display
 function draw() {
   background(220);
   if (gameOver) {
     if (endGame) {
       para1.html("Good job!");
+      
     } 
     else {
       para1.html("Game Over!");
+      }
+      
     }
-  } else {
+  else { //draw the grid
     displayGrid(currentColor0, currentColor1);
+    para2.html("Level: " + currentLevel);
   }
 
+}
+
+//resize window
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 //changing cursor
@@ -86,41 +108,47 @@ function mouseMoved(){
   }
 }
 
+//check if the mouse is pressed
 function mousePressed() {
   let y = Math.floor(mouseY/cellSize);
   let x = Math.floor(mouseX/cellSize);
-
-  toggleCell();//current cell
+  toggleCell();
 }
 
-
+//check where the mouse get pressed (0 or 1)
 function toggleCell() {
   let mouseToClick = get(mouseX, mouseY);
   if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor1.levels)) { //if the mouse is clicked on grid that is element 1
       nextLevel();
+      clickSound.play()
+      
+      
+
   }
   else if (JSON.stringify(mouseToClick) === JSON.stringify(currentColor0.levels)) {//if the mouse is clicked on grid that is element 0
       gameOver = true;
+      gameOverSound.play()
+      
     }
 }
-console.log(currentColor1.levels)
 
 
+//if the mouse is pressed on 1, advance to next level
 function nextLevel(){
   currentLevel += 1;
-  if (currentLevel < levels.length){
-    grid_level = levels[currentLevel][0];
-    currentDeltaColor = levels[currentLevel][1];
+  if (currentLevel < gameLevels.length){ //run through the 2d array gameLevel
+    gridLevel = gameLevels[currentLevel - 1][0];
+    currentDeltaColor = gameLevels[currentLevel - 1][1];
+    grid = generateGrid(gridLevel, gridLevel);
     randomColor();
-    grid = generateGrid(grid_level, grid_level);
   }
-  else{
+  else{ //reach the end of the 2d array gameLevels
     endGame = true;
     gameOver = true;
   }
 }
 
-
+//get random color
 function randomColor(){
   colorMode(RGB); 
   let r = Math.floor(random()*255);
@@ -141,24 +169,32 @@ function randomColor(){
 }
 
 
-
+//dísplay the grid
 function displayGrid(c0, c1){
   colorMode(RGB);
   noStroke();
-  for (let y = 0; y < grid_level; y++){
-    for (let x = 0; x < grid_level; x++){
+
+  //set the position of the grid
+  let gridWidth = gridLevel * (cellSize + GAP);
+  let gridHeight = gridLevel * (cellSize + GAP);
+
+  let x1 = (width - gridWidth)/2
+  let y1 = (height - gridHeight)/2
+
+  for (let y = 0; y < gridLevel; y++){
+    for (let x = 0; x < gridLevel; x++){
       if (grid[y][x] === 0){
         fill(c0);
       }
       else{
         fill(c1);
       }
-      rect(x * (cellSize + GAP), y * (cellSize + GAP), cellSize, cellSize);
+      rect(x * (cellSize + GAP) + x1, y * (cellSize + GAP) + y1, cellSize, cellSize);
     } 
   }
 }
 
-
+//create the grid with 1 and 0 
 function generateGrid(cols,rows){
   let newArr = [];
   for (let y = 0; y < rows; y ++){
