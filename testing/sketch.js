@@ -1,11 +1,11 @@
 let y2;
- let mainBall;
- let gameOver = false;
- let gems;
- let gem2;
- let gem3;
- let lastGemTime = 0;
- let scrollSpeed = 3
+let mainBall;
+let gameOver = false;
+let gems;
+let gem2;
+let gem3;
+let lastGemTime = 0;
+let scrollSpeed = 3
 
  function preload() {
    ocean = loadImage("water.jpg");
@@ -25,7 +25,7 @@ let y2;
 
    
    if (frameCount - lastGemTime > 5 * 60) { 
-nt
+     
      if (frameCount % 3 === 0) {
  		makeGemSquare();
      } 
@@ -42,17 +42,17 @@ nt
  }
 
  function updateGem(){
- 	
+ 	//update and draw the gems in gem3 group
  	if (gems) {
  		loopThroughGem(gems)
  	  }
 
- 	  
+ 	  //update and draw the gems in gem2 group
  	  if (gem2) {
  		loopThroughGem(gem2)
  	  }
 
- 	  
+ 	  //update and draw the gems in gems group
  	  if (gem3) {
  		loopThroughGem(gem3)
  	  }
