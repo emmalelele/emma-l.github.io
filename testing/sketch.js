@@ -1,120 +1,125 @@
+let theSky;
+let y1;
 let y2;
+let scrollSpeed = 3;
 let mainBall;
-let gameOver = false;
-let gems;
-let gem2;
-let gem3;
+let gems = [];
+let gem2 = [];
+let gem3 = [];
 let lastGemTime = 0;
-let scrollSpeed = 3
 
- function preload() {
-   ocean = loadImage("water.jpg");
- }
+class Obstacle {
+  constructor(width, height, x, y, amount) {
+    this.group = new Group();
+    this.group.width = width;
+    this.group.height = height;
+    this.group.x = () => random(0, width);
+    this.group.y = y;
+    this.group.amount = amount;
 
- function setup() {
-   createCanvas(700, 700);
-   y1 = 50;
-   y2 = -550;
-   makeGemSquare();
-   makePlayer();
- }
+    for (let i = 0; i < amount; i++) {
+      let newObstacle = createSprite(this.group.x(), this.group.y, width, height);
+      this.group.add(newObstacle);
+    }
+  }
 
- function draw() {
-   moveBackground();
-   mainBall.moveTowards(mouse);
+  update() {
+    scrollingObstacle(this.group);
+  }
+}
 
-   
-   if (frameCount - lastGemTime > 5 * 60) { 
-     
-     if (frameCount % 3 === 0) {
- 		makeGemSquare();
-     } 
- 	else if (frameCount % 3 === 1) {
- 		makeGemSquare();
- 	  	makeGemDots();
-     } 
- 	else {
-       makeGemRect();
-     }
-     lastGemTime = frameCount; 
-   }
-   updateGem()
- }
+function preload() {
+  theSky = loadImage("11.webp");
+}
 
- function updateGem(){
- 	//update and draw the gems in gem3 group
- 	if (gems) {
- 		loopThroughGem(gems)
- 	  }
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  y1 = 50;
+  y2 = -550;
+  makePlayer();
+  // Example usage of Obstacle class
+  let dots = new Obstacle(10, 10, 0, 0, 200);
+  gems.push(dots.group);
 
- 	  //update and draw the gems in gem2 group
- 	  if (gem2) {
- 		loopThroughGem(gem2)
- 	  }
+  let squareGems = new Obstacle(50, 10, 0, 0, 100);
+  gem2.push(squareGems.group);
 
- 	  //update and draw the gems in gems group
- 	  if (gem3) {
- 		loopThroughGem(gem3)
- 	  }
- }
+  let rectGems = new Obstacle(300, 10, width / 2, 0, 5);
+  gem3.push(rectGems.group);
+}
 
+function draw() {
+  moveBackground();
+  mainBall.moveTowards(mouseX, mouseY);
+  updateGem();
+  if (frameCount - lastGemTime > 5 * 60) {
+    if (frameCount % 3 === 0) {
+      makeGemSquare();
+    } else if (frameCount % 3 === 1) {
+      makeGemSquare();
+      dotsObstacle();
+    } else {
+      makeGemRect();
+    }
+    lastGemTime = frameCount;
+  }
+  drawSprites();
+}
 
+function updateGem() {
+  // update and draw the gems in gem3 group
+  if (gems) {
+    scrollingObstacle(gems);
+  }
 
+  // update and draw the gems in gem2 group
+  if (gem2) {
+    scrollingObstacle(gem2);
+  }
 
- function moveBackground() {
-   image(ocean, 0, y1, 700, 650);
-   image(ocean, 0, y2, 700, 650);
-   y1 += scrollSpeed;
-   y2 += scrollSpeed;
-   if (y1 >= 650) {
-     y1 = -600;
-   }
-   if (y2 >= 650) {
-     y2 = -600;
-   }
- }
+  // update and draw the gems in gems group
+  if (gem3) {
+    scrollingObstacle(gem3);
+  }
+}
 
- function makeGemDots() {
-   gems = new Group();
-   gems.diameter = 10;
-   gems.x = () => random(0, width);
-   gems.y = 0
-   gems.amount = 200;
- }
+function makePlayer() {
+  mainBall = createSprite(width / 2, height / 2, 50, 50);
+  mainBall.shapeColor = color("lavender");
+}
 
- function makeGemSquare() {
-   gem2 = new Group();
-   gem2.width = 50;
-   gem2.height = 10;
-   gem2.x = () => random(0, width);
-   gem2.y = 0
-   gem2.amount = 100;
- }
+function dotsObstacle() {
+  // Use the dots obstacle from the Obstacle class
+}
 
- function makeGemRect() {
-   gem3 = new Group();
-   gem3.width = 300;
-   gem3.height = 10;
-   gem3.x = width / 2;
-   gem3.y = 0
-   gem3.amount = 5;
-   while (gem3.length < 9){
- 	let newGem = new gem3.Sprite();
- 	newGem.y = gem3.length * 10;
-   }
- }
+function makeGemSquare() {
+  // Use the square obstacle from the Obstacle class
+}
 
- function makePlayer() {
-   noStroke();
-   mainBall = new Sprite(width / 2, height / 2, 50, "grey");
- }
+function makeGemRect() {
+  // Use the rectangle obstacle from the Obstacle class
+}
 
- function loopThroughGem(gemGroup){
- 	for (let i = 0; i < gemGroup.length; i++) {
- 		gemGroup[i].y += scrollSpeed; 
- 	}
- }
+function moveBackground() {
+  image(theSky, 0, y1, windowWidth, windowHeight);
+  image(theSky, 0, y2, windowWidth, windowHeight);
+  y1 += scrollSpeed;
+  y2 += scrollSpeed;
+  if (y1 >= windowHeight) {
+    y1 = -500;
+  }
+  if (y2 >= windowHeight) {
+    y2 = -500;
+  }
+}
 
- function theBalloon(){
+function scrollingObstacle(gemGroup) {
+  for (let i = 0; i < gemGroup.length; i++) {
+    gemGroup[i].position.y += scrollSpeed;
+  }
+}
 
- }
+// You may want to implement your collision and balloon functions here.
+
+// Rest of your code...
+.
